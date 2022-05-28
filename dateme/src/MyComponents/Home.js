@@ -1,9 +1,14 @@
-import React from 'react'
+import React,{useState} from 'react';
+import Card from "./Card";
+import Profile from './Profile';
 
 const Home = () => {
+  //const name="John Doe",age=69,desc="",prof="web",user="hard coded";
+  const [show, setShow] = useState(0)
   return (
     <>
     <nav class="navbar navbar-expand-lg navbar-light"  style={{fontFamily: "Acme, sans-serif",color: "#f70063",backgroundColor:"peachpuff"}}>
+    <div className="container-fluid">
   <a class="navbar-brand" style={{margin:"5px 5px"}}>dateMe</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -12,23 +17,30 @@ const Home = () => {
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}}>Explore</button>
+        <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}}  onClick={()=>setShow(0)}>Explore</button>
       </li>
       <li class="nav-item active">
-        <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}}>Profile</button>
+        <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}}  onClick={()=>setShow(1)} >Profile</button>
       </li>
       <li class="nav-item active">
-        <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}}>Notifications</button>
+        <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}}  onClick={()=>setShow(2)}>Notifications</button>
       </li>
       <li class="nav-item active">
         <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}}>Sign-out</button>
       </li>
       </ul>
   </div>
+  </div>
 </nav>
+{ show === 0 ? <Card/> :"" }
+
+{ show === 1 ? <Profile/>: ""}
 
 
-<footer class="bg-dark text-center text-white"  style={{fontFamily: "Lobster, cursive",color: "#333",backgroundColor:"rgba(0, 0, 0, 0.2)",marginTop:"5.5%",bottom:"0",position:"relative",width:"100%"}}>
+
+
+
+<footer class="bg-dark text-center text-white"  style={{fontFamily: "Concert One",color: "#333",backgroundColor:"rgba(0, 0, 0, 0.2)",marginTop:"5.5%",bottom:"0",position:"relative",width:"100%"}}>
   
   <div class="container p-4">
     
