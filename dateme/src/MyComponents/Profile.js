@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Profile = ({name,prof,age,user,desc}) => {
+    //console.log(name,prof,age,user,desc)
   return (
     <div class="container emp-profile" style={{marginTop:"20px"}}>
     <form method="post">
@@ -32,7 +33,7 @@ const Profile = ({name,prof,age,user,desc}) => {
                                         <label>Name : </label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{name}</p>
+                                        <p> {name}</p>
                                     </div>
                                 </div>
                                 <div class="row">

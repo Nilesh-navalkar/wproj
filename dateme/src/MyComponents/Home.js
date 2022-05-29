@@ -1,12 +1,76 @@
 import React,{useState} from 'react';
 import Card from "./Card";
 import Profile from './Profile';
-
+import {logout, useAuth, db } from "./firebase";
+import { collection,addDoc,getDocs,query,where} from "firebase/firestore";
+let n,p,a;
+let alldocs=[];
+let th=[] ;
 const Home = () => {
+  const users = collection(db, "users");
+  const currentUser = useAuth();
+  const current=currentUser?.email;
+  let data,i;
+
+  ftch();
+
   //const name="John Doe",age=69,desc="",prof="web",user="hard coded";
+ 
   const [show, setShow] = useState(0)
+  const [ loading, setLoading ] = useState(false);
+  
+  async function ftch(){
+  const q = query(users, where("email", "==", current ));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => { data=doc.data()});
+  //console.log(data.name)
+  n=data.name;
+  a=data.age;
+  p=data.prof;
+  //console.log(n,a,p)
+  }
+  async function ftchall(){
+    const q = query(users, where("age", "==", "66" ));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => { th=doc.data()});
+    console.log(th)
+    }
+  async function getMarker() {
+    getDocs(users)
+    .then((snapshot)=>{
+      snapshot.docs.forEach((doc)=>{
+        alldocs.push({...doc.data()})
+      })
+    })
+    //console.log(alldocs)
+    //for (var i=0, iLen=alldocs.length; i<iLen; i++) {
+    //  if (alldocs[i].age === 69) 
+    //  console.log(alldocs[i]);
+    //}
+    //th = alldocs.filter(u => u.age == "66");
+    //console.log(th)
+}
+
+  function handel()
+  {
+    ftch()
+    //getMarker();
+    ftchall()
+    setShow(1)
+  }
+  //console.log(n,a,p)
+  async function handleLogout() {
+    setLoading(true);
+    try {
+      await logout();
+    } catch {
+      alert("Error!");
+    }
+    setLoading(false);
+  }
   return (
     <>
+    
     <nav class="navbar navbar-expand-lg navbar-light"  style={{fontFamily: "Acme, sans-serif",color: "#f70063",backgroundColor:"peachpuff"}}>
     <div className="container-fluid">
   <a class="navbar-brand" style={{margin:"5px 5px"}}>dateMe</a>
@@ -20,13 +84,13 @@ const Home = () => {
         <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}}  onClick={()=>setShow(0)}>Explore</button>
       </li>
       <li class="nav-item active">
-        <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}}  onClick={()=>setShow(1)} >Profile</button>
+        <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}}  onClick={handel} >Profile</button>
       </li>
       <li class="nav-item active">
         <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}}  onClick={()=>setShow(2)}>Notifications</button>
       </li>
       <li class="nav-item active">
-        <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}}>Sign-out</button>
+        <button class="btn btn-outline-dark" style={{border:"none",margin:"5px 5px"}} onClick={handleLogout}>Sign-out</button>
       </li>
       </ul>
   </div>
@@ -34,7 +98,7 @@ const Home = () => {
 </nav>
 { show === 0 ? <Card/> :"" }
 
-{ show === 1 ? <Profile/>: ""}
+{ show === 1 ? <Profile  user={currentUser?.email} age={a}  name={n}  prof={p} />: ""}
 
 
 
