@@ -1,17 +1,21 @@
 import React from 'react'
+import { useState } from "react";
 
-const Profile = ({name,prof,age,user,desc}) => {
+
+const Profile = ({name,prof,age,user,desc,url}) => {
     //console.log(name,prof,age,user,desc)
+   
+
   return (
     <div class="container emp-profile" style={{marginTop:"20px"}}>
     <form method="post">
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-                    <img  class="img-fluid" style={{borderRadius:"200px"}} src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt=""/>
+                    <img  class="img-fluid" style={{borderRadius:"200px"}} src={url} alt=""/>
                     <div>
-                        <label for="files" class="btn btn-outline-dark" style={{border:"none"}}>Change Profile Pic</label>
-                    <input style={{display:"none"}} type="file" id="files" name="files"/>
+                        {/*<label for="files" class="btn btn-outline-dark" style={{border:"none"}}>Change Profile Pic</label>
+                    <input style={{display:"none"}} type="file" id="files" name="files"/>*/}
                     </div>
                     
                 </div>

@@ -3,7 +3,8 @@ import Card from "./Card";
 import Profile from './Profile';
 import {logout, useAuth, db } from "./firebase";
 import { collection,addDoc,getDocs,query,where} from "firebase/firestore";
-let n,p,a;
+import Notifs from "./notifs"
+let n,p,a,u;
 let alldocs=[];
 let dict={};
 
@@ -30,7 +31,8 @@ const Home = () => {
   n=data.name;
   a=data.age;
   p=data.prof;
-  //console.log(n,a,p)
+  u=data.pic;
+  //console.log(u)
   }
 
   async function getMarker() {
@@ -40,6 +42,8 @@ const Home = () => {
         alldocs.push({...doc.data()})
       })
     })
+   
+    dict= Object.assign({}, ...alldocs.map((x) => ({[x.name]: x.email})));
     //console.log(alldocs)
     //for (var i=0, iLen=alldocs.length; i<iLen; i++) {
     //  if (alldocs[i].age === 69) 
@@ -57,9 +61,15 @@ const Home = () => {
     getMarker();
     setCall(true)
     }
-    console.log(alldocs)
-    dict= Object.assign({}, ...alldocs.map((x) => ({[x.name]: x.email})));
-    console.log(dict)
+    const indexOfObject = alldocs.findIndex(object => {
+      return object.email === currentUser?.email;
+    });
+// remove object
+    alldocs.splice( indexOfObject, 1 );
+    //console.log(indexOfObject)
+    //console.log(alldocs)
+    
+    //console.log(dict)
     setShow(1)
   }
   //console.log(n,a,p)
@@ -101,9 +111,12 @@ const Home = () => {
   </div>
 </nav>
 
-{ show === 0 ? alldocs.map((user)=>(<Card nm={user.name} ag={user.email} pf={user.prof} em={user.email}/>)) :"" }
+{ show === 0 ? alldocs.map((user)=>(<Card nm={user.name} ag={user.email} pf={user.prof} current={currentUser?.email} em={user.email} pc={user.pic}/>)) :"" }
 
-{ show === 1 ? <Profile  user={currentUser?.email} age={a}  name={n}  prof={p} />: ""}
+{ show === 1 ? <Profile  user={currentUser?.email} age={a}  name={n}  prof={p} url={u}/>: ""}
+
+
+{ show === 2 ? <Notifs  user={currentUser?.email}/>: ""}
 
 
 

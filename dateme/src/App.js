@@ -3,9 +3,23 @@ import Home from "./MyComponents/Home"
 import {useState,useRef,useEffect} from 'react';
 import { signup, login, logout, useAuth, db } from "./MyComponents/firebase";
 import { collection,addDoc,getDocs,query,where } from "firebase/firestore";
+import { storage } from "./MyComponents/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
+let imgname="samplin";
 function App() {
 
+  function randomString(len) {
+    let charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    var randomString = '';
+    for (var i = 0; i < len; i++) {
+        var randomPoz = Math.floor(Math.random() * charSet.length);
+        randomString += charSet.substring(randomPoz,randomPoz+1);
+    }
+    return randomString;
+}
+  //const N=8;
+  //const imgname=Array(N+1).join((Math.random().toString(36)+'00000000000000000').slice(2, 18)).slice(0, N)
   const [land, setLand] = useState(1)
   const [ loading, setLoading ] = useState(false);
   const [c, setC ] = useState(false);
@@ -17,18 +31,49 @@ function App() {
   const ageRef = useRef();
   const profRef = useRef();
   const uc=collection(db, "users");
-  
+
+  const [image, setImage] = useState(null);
+  const [url, setUrl] = useState(null);
+
+  const handleImageChange = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+      //console.log(image)
+    }
+  };
+  //console.log("path",imgname)
+  const handleSubmit = () => {
+      imgname=randomString(8)
+      const dont=imgname;
+      const imageRef = ref(storage, dont);
+      uploadBytes(imageRef, image)
+        .then(() => {
+          getDownloadURL(imageRef)
+            .then((url) => {
+              setUrl(url);
+            })
+            .catch((error) => {
+              console.log(error.message, "error getting the image url");
+            });
+          console.log(url)
+          setImage(null);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    };
 
  
   async function fill()
   {
-    await addDoc(uc,{email:emailRef.current.value, name: nameRef.current.value,age:ageRef.current.value,prof:profRef.current.value});
+    await addDoc(uc,{email:emailRef.current.value, name: nameRef.current.value,age:ageRef.current.value,prof:profRef.current.value,pic:url});
   }
 
   async function handleSignup() {
     setLoading(true);
      try {
       await signup(emailRef.current.value, passwordRef.current.value);
+      handleSubmit()
       fill()
      } catch {
        alert("Error!");
@@ -121,6 +166,11 @@ function App() {
             <div class="form-outline mb-4">
               <input type="password" id="form3Example4" class="form-control" ref={passwordRef} required/>
               <label class="form-label" for="form3Example4" >Password</label>
+            </div>
+
+            <div class="form-outline mb-4">
+            <input type="file" name="fl" onChange={handleImageChange} required/>
+              <label class="form-label" for="fl" >Add Profile picture</label>
             </div>
 
             
