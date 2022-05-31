@@ -78,15 +78,7 @@ const Profile = ({name,prof,age,user,desc}) => {
             </div>
         </div>
         <div >
-            <div class="row" >
-                <div class="profile-work">
-                    <button class="btn btn-outline-dark" style={{margin:"20px 10px"}}>Instagram</button>
-                    <button class="btn btn-outline-dark" style={{margin:"20px 10px"}}>Twitter</button>
-                    <button class="btn btn-outline-dark" style={{margin:"20px 10px"}}>Facebook</button>
-                </div>
-            </div>
-           
-         
+
 
         </div>
     </form>           

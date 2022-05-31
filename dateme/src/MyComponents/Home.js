@@ -5,9 +5,12 @@ import {logout, useAuth, db } from "./firebase";
 import { collection,addDoc,getDocs,query,where} from "firebase/firestore";
 let n,p,a;
 let alldocs=[];
-let th=[] ;
+let dict={};
+
+let th ;
 const Home = () => {
   const users = collection(db, "users");
+  const [call, setCall] = useState(false)
   const currentUser = useAuth();
   const current=currentUser?.email;
   let data,i;
@@ -29,12 +32,7 @@ const Home = () => {
   p=data.prof;
   //console.log(n,a,p)
   }
-  async function ftchall(){
-    const q = query(users, where("age", "==", "66" ));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => { th=doc.data()});
-    console.log(th)
-    }
+
   async function getMarker() {
     getDocs(users)
     .then((snapshot)=>{
@@ -50,12 +48,18 @@ const Home = () => {
     //th = alldocs.filter(u => u.age == "66");
     //console.log(th)
 }
-
+//for(let i=0;i<alldocs.length;i++)
+//console.log(alldocs[i])
   function handel()
   {
+    if(!call){
     ftch()
-    //getMarker();
-    ftchall()
+    getMarker();
+    setCall(true)
+    }
+    console.log(alldocs)
+    dict= Object.assign({}, ...alldocs.map((x) => ({[x.name]: x.email})));
+    console.log(dict)
     setShow(1)
   }
   //console.log(n,a,p)
@@ -96,7 +100,8 @@ const Home = () => {
   </div>
   </div>
 </nav>
-{ show === 0 ? <Card/> :"" }
+
+{ show === 0 ? alldocs.map((user)=>(<Card nm={user.name} ag={user.email} pf={user.prof} em={user.email}/>)) :"" }
 
 { show === 1 ? <Profile  user={currentUser?.email} age={a}  name={n}  prof={p} />: ""}
 
