@@ -4,8 +4,9 @@ import Profile from './Profile';
 import {logout, useAuth, db } from "./firebase";
 import { collection,addDoc,getDocs,query,where} from "firebase/firestore";
 import Notifs from "./notifs"
-let n,p,a,u;
+let n,p,a,u,ph,g;
 let alldocs=[];
+let somedocs=[];
 let dict={};
 
 let th ;
@@ -16,8 +17,7 @@ const Home = () => {
   const current=currentUser?.email;
   let data,i;
 
-  ftch();
-
+ 
   //const name="John Doe",age=69,desc="",prof="web",user="hard coded";
  
   const [show, setShow] = useState(0)
@@ -32,8 +32,11 @@ const Home = () => {
   a=data.age;
   p=data.prof;
   u=data.pic;
+  ph=data.phone;
+  g=data.gender;
   //console.log(u)
   }
+  ftch();
 
   async function getMarker() {
     getDocs(users)
@@ -59,15 +62,37 @@ const Home = () => {
     if(!call){
     ftch()
     getMarker();
+
     setCall(true)
     }
     const indexOfObject = alldocs.findIndex(object => {
       return object.email === currentUser?.email;
     });
 // remove object
+try {
+  if(indexOfObject===-1)
+    indexOfObject=1000
     alldocs.splice( indexOfObject, 1 );
+  
+} catch (error) {
+  
+}
+somedocs=alldocs.filter(function(item)
+{
+ return item.gender!=g;
+})
+
+
+  //for(let i=0;i<alldocs.length;i++)
+  //{
+  //  if(alldocs[i].gender===g)
+  //  alldocs.splice(i,1)
+  //}
+    
+    
     //console.log(indexOfObject)
-    //console.log(alldocs)
+    //console.log("all",alldocs)
+    //console.log("some",somedocs)
     
     //console.log(dict)
     setShow(1)
@@ -85,7 +110,7 @@ const Home = () => {
   return (
     <>
     
-    <nav class="navbar navbar-expand-lg navbar-light"  style={{fontFamily: "Acme, sans-serif",color: "#f70063",backgroundColor:"peachpuff"}}>
+    <nav class="navbar navbar-expand-lg navbar-light"  style={{fontFamily:"Monaco",color: "#f70063",backgroundColor:"rgb(229, 194, 240)"}}>
     <div className="container-fluid">
   <a class="navbar-brand" style={{margin:"5px 5px"}}>dateMe</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,9 +136,9 @@ const Home = () => {
   </div>
 </nav>
 
-{ show === 0 ? alldocs.map((user)=>(<Card nm={user.name} ag={user.email} pf={user.prof} current={currentUser?.email} em={user.email} pc={user.pic}/>)) :"" }
+{ show === 0 ? somedocs.map((user)=>(<Card nm={user.name} ag={user.email} pf={user.prof} current={currentUser?.email} em={user.email} pc={user.pic} phone={ph}/>)) :"" }
 
-{ show === 1 ? <Profile  user={currentUser?.email} age={a}  name={n}  prof={p} url={u}/>: ""}
+{ show === 1 ? <Profile  user={currentUser?.email} age={a}  name={n}  prof={p} url={u} phone={ph} gender={g} />: ""}
 
 
 { show === 2 ? <Notifs  user={currentUser?.email}/>: ""}
@@ -127,21 +152,21 @@ const Home = () => {
   <div class="container p-4">
     
     <section class="mb-4">
-      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+      <a class="btn btn-outline-light btn-floating m-1"  role="button"
         ><i class="fab fa-facebook-f"></i></a>
 
       
-      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+      <a class="btn btn-outline-light btn-floating m-1" href="https://mobile.twitter.com/Ixphoriann" role="button"
         ><i class="fab fa-twitter"></i></a>
 
-      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+      <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com/nil.arts/" role="button"
         ><i class="fab fa-instagram"></i></a>
 
       
-      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+      <a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/mwlite/in/nilesh-navalkar-149212236" role="button"
         ><i class="fab fa-linkedin-in"></i></a>
 
-      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+      <a class="btn btn-outline-light btn-floating m-1" href="https://github.com/ixphoria" role="button"
         ><i class="fab fa-github"></i></a>
     </section>
     <section class="">
@@ -166,13 +191,13 @@ const Home = () => {
 
           <ul class="list-unstyled mb-0">
             <li>
-              <a href="#!" class="text-white">600032000</a>
+              <a  class="text-white">600032000</a>
             </li>
             <li>
-              <a href="#!" class="text-white">github</a>
+              <a  class="text-white">github</a>
             </li>
             <li>
-              <a href="#!" class="text-white">instagram</a>
+              <a  class="text-white">instagram</a>
             </li>
           </ul>
         </div>
@@ -181,13 +206,13 @@ const Home = () => {
 
           <ul class="list-unstyled mb-0">
             <li>
-              <a href="#!" class="text-white">60003200076</a>
+              <a  class="text-white">60003200076</a>
             </li>
             <li>
               <a href="https://github.com/ixphoria" class="text-white">github</a>
             </li>
             <li>
-              <a href="#!" class="text-white">instagram</a>
+              <a href="https://www.instagram.com/nil.arts/" class="text-white">instagram</a>
             </li>
             </ul>
         </div>
@@ -197,13 +222,13 @@ const Home = () => {
 
           <ul class="list-unstyled mb-0">
             <li>
-              <a href="#!" class="text-white">600032000</a>
+              <a  class="text-white">600032000</a>
             </li>
             <li>
-              <a href="#!" class="text-white">github</a>
+              <a  class="text-white">github</a>
             </li>
             <li>
-              <a href="#!" class="text-white">instagram</a>
+              <a  class="text-white">instagram</a>
             </li>
           </ul>
         </div>
@@ -214,7 +239,7 @@ const Home = () => {
   
   <div class="text-center p-3" style={{backgroundColor: "rgba(0, 0, 0, 0.2)"}}>
     © 2022 Copyright : 
-    <a class="text-white" style={{textDecoration:"none"}}> group name</a>
+    <a class="text-white" style={{textDecoration:"none"}}> Nilesh Navalkar and group </a>
   </div>
 </footer>
 

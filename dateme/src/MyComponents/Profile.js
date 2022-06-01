@@ -2,12 +2,12 @@ import React from 'react'
 import { useState } from "react";
 
 
-const Profile = ({name,prof,age,user,desc,url}) => {
+const Profile = ({name,prof,age,user,desc,url,phone,gender}) => {
     //console.log(name,prof,age,user,desc)
    
 
   return (
-    <div class="container emp-profile" style={{marginTop:"20px"}}>
+    <div class="container emp-profile" style={{fontFamily:"Monaco",marginTop:"20px"}}>
     <form method="post">
         <div class="row">
             <div class="col-md-4">
@@ -64,22 +64,31 @@ const Profile = ({name,prof,age,user,desc,url}) => {
                                         <p>{prof}</p>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Phone no. : </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{phone}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Gender : </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{gender}</p>
+                                    </div>
+                                </div>
                     </div>
                     
                 </div>
 
 
             </div>
-            <p>Description : </p>
-            <div className="card text-center" style={{maxWidth: "40rem",maxHeight:"8rem", marginLeft:"35px",marginRight:"35px"}}>
-                <div class="card-body  py-5 px-md-2">
-                    {desc}
-                </div>
+
             </div>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-outline-dark" name="btnAddMore" style={{margin:"20px 10px"}}>Edit Profile</button>
-            </div>
+       
         </div>
         <div >
 

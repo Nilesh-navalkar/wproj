@@ -23,6 +23,7 @@ function App() {
   const [land, setLand] = useState(1)
   const [ loading, setLoading ] = useState(false);
   const [c, setC ] = useState(false);
+  const [gend, setGend ] = useState("male");
   const currentUser = useAuth();
 
   const emailRef = useRef();     //taking email and pass from input fields
@@ -30,6 +31,8 @@ function App() {
   const nameRef = useRef();
   const ageRef = useRef();
   const profRef = useRef();
+  const phoneRef = useRef();
+  //const gRef = useRef();
   const uc=collection(db, "users");
 
   const [image, setImage] = useState(null);
@@ -66,7 +69,7 @@ function App() {
  
   async function fill()
   {
-    await addDoc(uc,{email:emailRef.current.value, name: nameRef.current.value,age:ageRef.current.value,prof:profRef.current.value,pic:url});
+    await addDoc(uc,{email:emailRef.current.value,phone:phoneRef.current.value, name: nameRef.current.value,age:ageRef.current.value,prof:profRef.current.value,gender:gend,pic:url});
   }
 
   async function handleSignup() {
@@ -105,11 +108,11 @@ function App() {
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
       
       
-      <div class="card mx-4 mx-md-5 shadow-5-strong pt-5 " style={{marginTop: "2.5px",marginBottom: "2.5px",background: "hsla(0, 0%, 100%, 0.8)",backdropFilter: "blur(30px)"}}>
+      <div class="card mx-4  shadow-5-strong pt-5 " style={{marginTop: "2.5px",marginBottom: "2.5px",backgroundImage:"url('https://images.pexels.com/photos/776636/pexels-photo-776636.jpeg')",backgroundSize:"cover",backdropFilter: "blur(30px)",height:"40rem"}}>
         <div class="card-body py-5 px-md-5">
       
-                
-                <button  class="btn btn-primary btn-block mb-4"  onClick={()=>setLand(!land)}>
+                <p style={{fontSize:"6rem",fontFamily:"Monaco",color:"peachpuff"}}>FIND YOUR IDEAL MATCH</p>
+                <button  class="btn btn-outline-danger btn-block mb-4" style={{fontFamily:"Monaco",border:"none",color:"white",borderRadius:"7px"}} onClick={()=>setLand(!land)}>
                   Get Started
                 </button>
       
@@ -129,7 +132,7 @@ function App() {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   
 
-  <div class="card mx-4 mx-md-5 shadow-5-strong pt-5 " style={{marginTop: "2.5px",marginBottom: "2.5px",background: "hsla(0, 0%, 100%, 0.8)",backdropFilter: "blur(30px)"}}>
+  <div class="card mx-4 mx-md-5 shadow-5-strong pt-5 " style={{fontFamily:"Monaco",marginTop: "2.5px",marginBottom: "2.5px",backgroundColor: "rgb(229, 194, 240)",backdropFilter: "blur(30px)",borderRadius:"7px"}}>
     <div class="card-body py-5 px-md-5">
 
       <div class="row d-flex justify-content-center">
@@ -162,15 +165,31 @@ function App() {
               <label class="form-label" for="form3Example3" >Email address</label>
             </div>
 
-            
             <div class="form-outline mb-4">
+              <input type="number" id="form3Example4" class="form-control" ref={phoneRef} required/>
+              <label class="form-label" for="form3Example4" >Phone no.</label>
+            </div>
+
+            
+            <div class="form-outline mb-4 ">
               <input type="password" id="form3Example4" class="form-control" ref={passwordRef} required/>
               <label class="form-label" for="form3Example4" >Password</label>
             </div>
 
-            <div class="form-outline mb-4">
+            <div class="row">
+            <div class="form-outline mb-4 col-6">
             <input type="file" name="fl" onChange={handleImageChange} required/>
               <label class="form-label" for="fl" >Add Profile picture</label>
+            </div>
+            
+
+            <div class="form-outline mb-4 col-6">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required value={gend} onChange={(e)=>setGend(e.target.value)}>
+            <option value="male" >Male</option>
+            <option value="female">Female</option>
+            </select>
+            </div>
+
             </div>
 
             
@@ -182,7 +201,7 @@ function App() {
             </div>
 
             
-            <button  disabled={ loading || currentUser } class="btn btn-primary btn-block mb-4"  onClick={handleSignup}>
+            <button style={{fontFamily:"Monaco",borderRadius:"7px"}} disabled={ loading || currentUser } class="btn btn-outline-danger btn-block mb-4"  onClick={handleSignup}>
               Sign up
             </button>
             
@@ -210,7 +229,7 @@ function App() {
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   
-  <div class="card mx-4 mx-md-5 shadow-5-strong" style={{marginTop: "40px",background: "hsla(0, 0%, 100%, 0.8)",backdropFilter: "blur(30px)"}}>
+  <div class="card mx-4 mx-md-5 shadow-5-strong" style={{fontFamily:"Monaco",marginTop: "2.5px",marginBottom: "2.5px",backgroundColor: "rgb(229, 194, 240)",backdropFilter: "blur(30px)",borderRadius:"7px"}}>
     <div class="card-body py-5 px-md-5" >
 
       <div class="row d-flex justify-content-center" >
@@ -229,7 +248,7 @@ function App() {
               <label class="form-label" for="form3Example4" >Password</label>
             </div>
 
-            <button  disabled={ loading || currentUser } class="btn btn-primary btn-block mb-4"  onClick={handleLogin}>
+            <button style={{fontFamily:"Monaco",borderRadius:"7px"}} disabled={ loading || currentUser } class="btn btn-outline-danger btn-block mb-4"  onClick={handleLogin}>
               Login
             </button>
             
