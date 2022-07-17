@@ -28,4 +28,11 @@
 ![image](https://user-images.githubusercontent.com/80153286/179402329-0b714f75-fb1c-4bec-beef-b32e571a3b5f.png)
 ![image](https://user-images.githubusercontent.com/80153286/179402335-0478958f-e6a8-41a1-9558-7b41ca5b4be4.png)
 
- 
+ #ABSTRACT:
+         After user login, The explore tab shows the profiles of users of opposite gender as that of the logged user. The user 
+									can give connect request to these profiles from explore.
+									When a user sends a connect request to another user the recipient user gets notified via the 
+									notification tab showing an entry of connection request. 
+									This user can then accept this request or ignore it. If the user accepts it he/she is redirected to 
+									watsapp page with the number of the other user. Connected users can thus communicate with one 
+									another.
